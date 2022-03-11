@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:testcase/features/movie/domain/entities/results.dart';
+import 'package:testcase/features/movie/presentation/movie_detail_pages.dart';
 
-class MovieItems extends StatelessWidget {
+class MovieItems extends StatefulWidget {
   final Results result;
   const MovieItems(this.result, {Key? key}) : super(key: key);
 
+  @override
+  State<MovieItems> createState() => _MovieItemsState();
+}
+
+class _MovieItemsState extends State<MovieItems> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -13,7 +19,13 @@ class MovieItems extends StatelessWidget {
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) =>
+                        MovieDetailPages(widget.result.id!))));
+          },
           child: Row(
             children: [
               SizedBox(
@@ -23,7 +35,7 @@ class MovieItems extends StatelessWidget {
                   placeholder: const AssetImage(
                       'assets/images/product_image_placeholder.jpeg'),
                   image: NetworkImage(
-                    'http://image.tmdb.org/t/p/w500/${result.backdropPath!}',
+                    'http://image.tmdb.org/t/p/w500/${widget.result.backdropPath!}',
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -36,14 +48,14 @@ class MovieItems extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (result.originalTitle == null)
-                    Text('${result.originalName}',
-                        style: TextStyle(fontWeight: FontWeight.bold))
+                  if (widget.result.originalTitle == null)
+                    Text('${widget.result.originalName}',
+                        style: const TextStyle(fontWeight: FontWeight.bold))
                   else
-                    Text('${result.originalTitle}',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text('${widget.result.originalTitle}',
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 4),
-                  Text('${result.mediaType}'),
+                  Text('${widget.result.mediaType}'),
                 ],
               ))
             ],

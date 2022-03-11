@@ -1,6 +1,7 @@
 import 'package:testcase/core/error/exceptions.dart';
 import 'package:testcase/core/network/network_info.dart';
 import 'package:testcase/features/movie/data/datasource/movie_remote_data_source.dart';
+import 'package:testcase/features/movie/domain/entities/movie_detail.dart';
 import 'package:testcase/features/movie/domain/entities/popular_movie.dart';
 import 'package:testcase/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
@@ -26,10 +27,10 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<Failure, PopularMovies>> getDetailMovies(int idMovies) async {
+  Future<Either<Failure, MovieDetail>> getDetailMovies(int idMovies) async {
     if (await networkInfo.isConnected) {
       try {
-        return Right(await remoteDataSource.getAllMovies(idMovies));
+        return Right(await remoteDataSource.getDetailMovies(idMovies));
       } on ServerException catch (e) {
         return Left(ServerFailure(e.errorMessage));
       }

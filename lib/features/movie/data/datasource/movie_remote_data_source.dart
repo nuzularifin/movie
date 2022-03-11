@@ -4,12 +4,12 @@ import 'package:testcase/core/network/dio_handling_response.dart';
 import 'package:testcase/core/network/dio_service.dart';
 import 'package:testcase/core/network/endpoint_variable.dart';
 import 'package:testcase/core/utils/global_variables.dart';
+import 'package:testcase/features/movie/data/models/movie_detail_model.dart';
 import 'package:testcase/features/movie/data/models/popular_movies_model.dart';
-import 'package:testcase/features/movie/domain/entities/popular_movie.dart';
 
 abstract class MovieRemoteDataSource {
   Future<PopularMoviesModel> getAllMovies(int page);
-  Future<PopularMovies> getDetailMovies(int idMovie);
+  Future<MovieDetailModel> getDetailMovies(int idMovie);
 }
 
 class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
@@ -36,15 +36,18 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   }
 
   @override
-  Future<PopularMovies> getDetailMovies(int idMovie) async {
+  Future<MovieDetailModel> getDetailMovies(int idMovie) async {
     try {
       dioService.settingLog();
       var response = await dioService.dio.get(
           EndpointVariable.getDetailMovies + "/$idMovie",
-          queryParameters: {"api_key": GlobalVariables.apiKey});
+          queryParameters: {
+            "api_key": GlobalVariables.apiKey,
+            "language": "en-US"
+          });
       if (response.statusCode == 200) {
-        PopularMoviesModel popularMovies =
-            PopularMoviesModel.fromJson(response.data);
+        MovieDetailModel popularMovies =
+            MovieDetailModel.fromJson(response.data);
         return popularMovies;
       } else {
         throw ServerException(errorMessage: 'Unknow Error', code: 500);

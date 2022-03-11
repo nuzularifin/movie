@@ -7,7 +7,9 @@ import 'package:testcase/features/movie/data/datasource/movie_remote_data_source
 import 'package:testcase/features/movie/data/repository/movie_repository_impl.dart';
 import 'package:testcase/features/movie/domain/repository/movei_repository.dart';
 import 'package:testcase/features/movie/domain/usecase/get_all_movies_usecase.dart';
+import 'package:testcase/features/movie/domain/usecase/get_detail_movie_usecase.dart';
 import 'package:testcase/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:testcase/features/movie/presentation/bloc/movie_detail_bloc.dart';
 
 import 'core/network/dio_service.dart';
 
@@ -16,6 +18,7 @@ final sl = GetIt.instance;
 Future<void> init() async {
   //? BlocStuff
   sl.registerLazySingleton(() => MovieBloc(getAllMoviesUseCase: sl()));
+  sl.registerLazySingleton(() => MovieDetailBloc(getDetailMovieUseCase: sl()));
 
   //? Datasource Stuff
   sl.registerLazySingleton<MovieRemoteDataSource>(
@@ -35,4 +38,5 @@ Future<void> init() async {
   sl.registerLazySingleton(
       () => GetLoginUseCase(authenticationRepository: sl()));
   sl.registerLazySingleton(() => GetAllMoviesUseCase(movieRepository: sl()));
+  sl.registerLazySingleton(() => GetDetailMovieUseCase(movieRepository: sl()));
 }
