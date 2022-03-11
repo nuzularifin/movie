@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:testcase/core/db/user_database.dart';
 import 'package:testcase/core/network/network_info.dart';
 import 'package:testcase/features/authentication/data/datasource/authentication_local_data_source.dart';
 import 'package:testcase/features/authentication/data/repository/authentication_repository_impl.dart';

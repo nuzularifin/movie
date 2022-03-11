@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:testcase/core/error/failure.dart';
+import 'package:testcase/core/utils/global_function.dart';
 import 'package:testcase/features/authentication/domain/usecases/get_login_usecase.dart';
 
 part 'authentication_event.dart';
@@ -14,6 +15,16 @@ class AuthenticationBloc
     on<AuthenticationEvent>((event, emit) async {
       if (event is RequestLoginEvent) {
         emit(AuthenticationLoadingState());
+
+        if (event.username.isEmpty) {
+          emit(AuthenticationFailedState(message: 'Email tidak boleh kosong'));
+        } else if (event.password.isEmpty) {
+          emit(AuthenticationFailedState(
+              message: 'Password tidak boleh kosong'));
+        } else if (!GlobalFunction().checkingValidateEmail(event.username)) {
+          emit(AuthenticationFailedState(message: 'Email tidak valid'));
+        }
+
         var status = await getLoginUseCase(
             GetLoginParams(username: event.username, password: event.password));
         status.fold((failure) {

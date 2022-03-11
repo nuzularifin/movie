@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:testcase/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:testcase/features/authentication/presentation/register_pages.dart';
 import 'package:testcase/features/movie/presentation/movie_detail_pages.dart';
+import 'package:testcase/features/movie/presentation/movie_list_pages.dart';
 
 class LoginPages extends StatefulWidget {
   const LoginPages({Key? key}) : super(key: key);
@@ -24,6 +25,8 @@ class _LoginPagesState extends State<LoginPages> {
           BotToast.showText(text: state.message);
         } else if (state is AuthenticationSuccessState) {
           BotToast.showText(text: 'Login Berhasil');
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => MovieListPages()));
         }
       },
       builder: (context, state) {

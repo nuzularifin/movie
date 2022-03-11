@@ -7,7 +7,6 @@ import 'package:testcase/features/authentication/presentation/login_pages.dart';
 import 'package:testcase/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:testcase/features/movie/presentation/bloc/movie_detail_bloc.dart';
 import 'injection_container.dart' as di;
-import 'injection_container.dart';
 
 void main() async {
   await di.init();
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: MovieListPages(),
-      home: LoginPages(),
+      home: const LoginPages(),
     );
   }
 }

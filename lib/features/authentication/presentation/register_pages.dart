@@ -23,7 +23,7 @@ class _RegisterPagesState extends State<RegisterPages> {
         if (state is RegisterFailedState) {
           BotToast.showText(text: state.message);
         } else if (state is RegisterSuccessState) {
-          BotToast.showText(text: 'Login Berhasil');
+          BotToast.showText(text: 'Register Berhasil');
         }
       },
       builder: (context, state) {

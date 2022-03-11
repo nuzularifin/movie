@@ -32,5 +32,8 @@ class User {
     String? username,
     String? password,
   }) =>
-      User(id: id ?? this.id, username: username!, password: password!);
+      User(
+          id: id ?? this.id,
+          username: username ?? "",
+          password: password ?? "");
 }

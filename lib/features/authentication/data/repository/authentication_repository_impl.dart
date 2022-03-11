@@ -23,7 +23,11 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   @override
   Future<Either<Failure, User>> requestRegister(
       String username, String password) async {
-    return Right(
-        await authenticationLocalDataSource.register(username, password));
+    try {
+      return Right(
+          await authenticationLocalDataSource.register(username, password));
+    } on Exception catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
 }

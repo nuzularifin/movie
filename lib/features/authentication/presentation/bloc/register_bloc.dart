@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:testcase/core/utils/global_function.dart';
 import 'package:testcase/features/authentication/domain/usecases/request_register_usecase.dart';
 
 part 'register_event.dart';
@@ -14,15 +15,17 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         emit(RegisterLoadingState());
 
         if (event.username.isEmpty) {
-          emit(RegisterFailedState(message: 'username tidak boleh kosong'));
+          emit(RegisterFailedState(message: 'Email tidak boleh kosong'));
         } else if (event.password.isEmpty) {
-          emit(RegisterFailedState(message: 'password tidak boleh kosong'));
+          emit(RegisterFailedState(message: 'Password tidak boleh kosong'));
+        } else if (!GlobalFunction().checkingValidateEmail(event.username)) {
+          emit(RegisterFailedState(message: 'Email tidak valid'));
         } else {
           var user = await requestRegisterUseCase(RequestRegisterParams(
               username: event.username, password: event.password));
           user.fold((failure) {
             emit(RegisterFailedState(message: failure.message));
-          }, (r) {
+          }, (success) {
             emit(RegisterSuccessState());
           });
         }
