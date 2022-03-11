@@ -1,22 +1,36 @@
+final String tableUser = 'users';
+
+class UserFields {
+  static final List<String> values = [id, username, password];
+
+  static final String id = '_id';
+  static final String username = 'username';
+  static final String password = 'password';
+}
+
 class User {
-  int? _id;
-  String? _username;
-  String? _password;
+  final int? id;
+  final String username;
+  final String password;
 
-  User(this._username, this._password);
+  User({this.id, required this.username, required this.password});
 
-  User.fromMap(dynamic obj) {
-    _username = obj['username'];
-    _password = obj['password'];
-  }
+  static User fromJson(Map<String, Object?> json) => User(
+        id: json[UserFields.id] as int?,
+        username: json[UserFields.username] as String,
+        password: json[UserFields.password] as String,
+      );
 
-  String get username => _username!;
-  String get password => _password!;
+  Map<String, Object?> toJson() => {
+        UserFields.id: id,
+        UserFields.username: username,
+        UserFields.password: password
+      };
 
-  Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{};
-    map["username"] = _username;
-    map["password"] = _password;
-    return map;
-  }
+  User copy({
+    int? id,
+    String? username,
+    String? password,
+  }) =>
+      User(id: id ?? this.id, username: username!, password: password!);
 }

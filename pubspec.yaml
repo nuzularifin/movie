@@ -28,6 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   badges: ^2.0.2
+  bot_toast: ^4.0.1
   cupertino_icons: ^1.0.2
   dartz: ^0.10.0
   dio: ^4.0.4
