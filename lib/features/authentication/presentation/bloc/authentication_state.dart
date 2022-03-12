@@ -18,3 +18,7 @@ class AuthenticationFailedState extends AuthenticationState {
 
   const AuthenticationFailedState({required this.message});
 }
+
+class OpenLoginState extends AuthenticationState {}
+
+class OpenDashboardState extends AuthenticationState {}

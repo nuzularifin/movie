@@ -24,6 +24,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   Future<Either<Failure, User>> requestRegister(
       String username, String password) async {
     try {
+      await authenticationLocalDataSource.saveStatusLogin(true);
       return Right(
           await authenticationLocalDataSource.register(username, password));
     } on Exception catch (e) {

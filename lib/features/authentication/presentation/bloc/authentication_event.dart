@@ -13,3 +13,5 @@ class RequestLoginEvent extends AuthenticationEvent {
 
   const RequestLoginEvent(this.username, this.password);
 }
+
+class CheckingStatusLoginEvent extends AuthenticationEvent {}

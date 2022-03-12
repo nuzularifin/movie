@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testcase/core/network/network_info.dart';
 import 'package:testcase/features/authentication/data/datasource/authentication_local_data_source.dart';
 import 'package:testcase/features/authentication/data/repository/authentication_repository_impl.dart';
@@ -16,7 +17,6 @@ import 'package:testcase/features/movie/domain/usecase/get_all_movies_usecase.da
 import 'package:testcase/features/movie/domain/usecase/get_detail_movie_usecase.dart';
 import 'package:testcase/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:testcase/features/movie/presentation/bloc/movie_detail_bloc.dart';
-
 import 'core/network/dio_service.dart';
 
 final sl = GetIt.instance;
@@ -25,14 +25,15 @@ Future<void> init() async {
   //? BlocStuff
   sl.registerLazySingleton(() => MovieBloc(getAllMoviesUseCase: sl()));
   sl.registerLazySingleton(() => MovieDetailBloc(getDetailMovieUseCase: sl()));
-  sl.registerLazySingleton(() => AuthenticationBloc(getLoginUseCase: sl()));
+  sl.registerLazySingleton(() => AuthenticationBloc(
+      getLoginUseCase: sl(), authenticationLocalDataSource: sl()));
   sl.registerLazySingleton(() => RegisterBloc(requestRegisterUseCase: sl()));
 
   //? Datasource Stuff
   sl.registerLazySingleton<MovieRemoteDataSource>(
       () => MovieRemoteDataSourceImpl(dioService: sl()));
   sl.registerLazySingleton<AuthenticationLocalDataSource>(
-      () => AuthenticationLocalDataSourceImpl());
+      () => AuthenticationLocalDataSourceImpl(sharedPreferences: sl()));
 
   //? Core Stuff
   sl.registerLazySingleton(() => InternetConnectionChecker());
@@ -54,4 +55,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetDetailMovieUseCase(movieRepository: sl()));
   sl.registerLazySingleton(
       () => RequestRegisterUseCase(authenticationRepository: sl()));
+
+  //? External Stuff
+
+  final sharedPrefrences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => sharedPrefrences);
 }

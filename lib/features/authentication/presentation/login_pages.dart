@@ -51,7 +51,7 @@ class _LoginPagesState extends State<LoginPages> {
                       controller: _textUsername,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'User Name',
+                        labelText: 'Email',
                       ),
                     ),
                   ),

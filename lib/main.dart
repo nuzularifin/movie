@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:testcase/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:testcase/features/authentication/presentation/bloc/register_bloc.dart';
-import 'package:testcase/features/authentication/presentation/login_pages.dart';
 import 'package:testcase/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:testcase/features/movie/presentation/bloc/movie_detail_bloc.dart';
+import 'package:testcase/splash_screen.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await di.init();
   runApp(MultiBlocProvider(providers: [
     BlocProvider<MovieBloc>(
@@ -16,7 +17,8 @@ void main() async {
     BlocProvider<MovieDetailBloc>(
         create: (context) => MovieDetailBloc(getDetailMovieUseCase: di.sl())),
     BlocProvider<AuthenticationBloc>(
-        create: (context) => AuthenticationBloc(getLoginUseCase: di.sl())),
+        create: (context) => AuthenticationBloc(
+            getLoginUseCase: di.sl(), authenticationLocalDataSource: di.sl())),
     BlocProvider<RegisterBloc>(
         create: (context) => RegisterBloc(requestRegisterUseCase: di.sl()))
   ], child: const MyApp()));
@@ -33,8 +35,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: MovieListPages(),
-      home: const LoginPages(),
+      home: const SplashScreen(),
     );
   }
 }

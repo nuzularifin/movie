@@ -62,14 +62,24 @@ class UserDatabase {
 
     final maps = await db.query(tableUser,
         columns: UserFields.values,
-        where: '${UserFields.username} LIKE ?',
-        whereArgs: ['%$username%']);
+        where: '${UserFields.username} = ? AND ${UserFields.password} = ?',
+        whereArgs: ['%$username%', '%$password%']);
     if (maps.isNotEmpty) {
       return User.fromJson(maps.first);
     } else {
-      throw Exception('ID $username not found');
+      throw Exception('Email $username tidak ditemukan');
     }
   }
+
+  // Future<User> getLogin(String username, String password) async {
+  //   var dbClient = await instance.database;
+  //   var res = await dbClient.rawQuery("SELECT * FROM user WHERE username = '$username' and password = '$password'");
+
+  //   if (res.length > 0) {
+  //     return User.fromMap(res.first);
+  //   }
+  //   return throw Exception('ID $username not found');;
+  // }
 
   Future<List<User>> readAllUsers() async {
     final db = await instance.database;

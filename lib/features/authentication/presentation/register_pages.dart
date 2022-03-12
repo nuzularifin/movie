@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:testcase/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:testcase/features/authentication/presentation/bloc/register_bloc.dart';
 import 'package:testcase/features/movie/presentation/movie_detail_pages.dart';
+import 'package:testcase/features/movie/presentation/movie_list_pages.dart';
 
 class RegisterPages extends StatefulWidget {
   const RegisterPages({Key? key}) : super(key: key);
@@ -24,6 +25,8 @@ class _RegisterPagesState extends State<RegisterPages> {
           BotToast.showText(text: state.message);
         } else if (state is RegisterSuccessState) {
           BotToast.showText(text: 'Register Berhasil');
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => MovieListPages()));
         }
       },
       builder: (context, state) {
